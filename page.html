@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python Lesson: Lists, Tuples, and Dictionaries — Grade 10</title>
+  <style>
+    :root{
+      --bg:#0f172a;/* slate-900 */
+      --panel:#111827;/* gray-900 */
+      --muted:#94a3b8;/* slate-400 */
+      --text:#e5e7eb;/* gray-200 */
+      --accent:#22d3ee;/* cyan-400 */
+      --accent-2:#fb7185;/* rose-400 */
+      --ok:#34d399;/* emerald-400 */
+      --warn:#f59e0b;/* amber-500 */
+      --err:#ef4444;/* red-500 */
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Inter,Arial;background:linear-gradient(180deg,#0b1226,#0f172a 40%,#0b1226);color:var(--text)}
+    header{position:sticky;top:0;background:rgba(15,23,42,.75);backdrop-filter:blur(8px);border-bottom:1px solid #1f2937;z-index:20}
+    .wrap{max-width:1100px;margin:0 auto;padding:1rem}
+    h1{font-size:clamp(1.3rem,2.8vw,2rem);margin:.2rem 0 0.6rem 0}
+    .sub{color:var(--muted);font-size:.95rem}
+    .tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin:.8rem 0}
+    .tab{padding:.55rem .9rem;border:1px solid #1f2937;border-radius:999px;background:#0b1021;color:#cbd5e1;cursor:pointer;transition:.2s}
+    .tab[aria-selected="true"]{background:linear-gradient(135deg,#0ea5e9 0%, #22d3ee 40%, #7dd3fc 100%);color:#05253a;border-color:transparent;font-weight:700}
+    main{max-width:1100px;margin:1rem auto;padding:0 1rem 6rem}
+    .card{background:linear-gradient(180deg,#0b1021 0%, #0b1224 100%);border:1px solid #1f2937;border-radius:18px;padding:1rem;margin:1rem 0;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .row{display:grid;grid-template-columns:1.1fr .9fr;gap:1rem}
+    @media (max-width:880px){.row{grid-template-columns:1fr}}
+    .kicker{letter-spacing:.12em;color:#9ca3af;text-transform:uppercase;font-size:.72rem}
+    h2{margin:.2rem 0 .6rem;font-size:1.2rem}
+    h3{margin:.2rem 0 .6rem;font-size:1rem;color:#cbd5e1}
+    .pill{display:inline-block;padding:.28rem .6rem;border:1px dashed #334155;border-radius:999px;color:#93c5fd;background:#0a1224;margin-right:.35rem;font-size:.8rem}
+    .muted{color:#9aa8be}
+    label{display:block;margin:.4rem 0 .25rem;font-size:.9rem;color:#c7d2fe}
+    input, select, textarea{width:100%;padding:.6rem .7rem;border-radius:12px;background:#0b1021;border:1px solid #243145;color:#e5e7eb;outline:none}
+    input:focus, textarea:focus{border-color:#38bdf8;box-shadow:0 0 0 3px rgba(56,189,248,.15)}
+    button{padding:.55rem .9rem;border-radius:12px;border:1px solid #1f2937;background:#111827;color:#e5e7eb;cursor:pointer}
+    button.primary{background:linear-gradient(135deg,#06b6d4,#22d3ee);color:#04202a;border:none}
+    button.ghost{background:transparent;border:1px dashed #374151}
+    .btns{display:flex;gap:.5rem;flex-wrap:wrap;margin:.5rem 0}
+    .out{background:#071022;border:1px solid #1f2a3d;border-radius:12px;padding:.7rem;min-height:48px}
+    .code{background:#0b0f1d;border:1px solid #1f2937;border-radius:14px;padding:1rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#d1fae5;font-size:.9rem;overflow:auto}
+    .hint{border-left:3px solid var(--accent);padding:.6rem 1rem;background:#071422;border-radius:12px;margin:.6rem 0;color:#a7f3d0}
+    .error{border-left:3px solid var(--err);background:#210b0b;color:#fecaca}
+    .success{border-left:3px solid var(--ok);background:#0a1f16;color:#bbf7d0}
+    .quiz{display:grid;gap:.8rem}
+    .badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.75rem;border:1px solid #1f2937;border-radius:999px;padding:.25rem .55rem;background:#0a0f1f;color:#cbd5e1}
+    .footer{color:#9aa8be;text-align:center;margin-top:2rem}
+    .flex{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+    .small{font-size:.85rem}
+    .sep{height:1px;background:#1f2937;margin:1rem 0}
+    .kbd{font-family:ui-monospace,Menlo,Consolas,monospace;background:#0a1224;border:1px solid #334155;border-radius:6px;padding:.05rem .35rem}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="flex" style="justify-content:space-between">
+        <div>
+          <h1>Interactive Python Lesson — Lists, Tuples & Dictionaries</h1>
+          <div class="sub">Grade 10 • Try the activities • See the Python code update live</div>
+        </div>
+        <div class="flex small">
+          <span class="badge">⌛ ~35–45 min</span>
+          <span class="badge">🧠 Beginner+</span>
+        </div>
+      </div>
+      <nav class="tabs" role="tablist" aria-label="Lesson Sections">
+        <button class="tab" role="tab" aria-selected="true" data-tab="lists">1. Lists</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="tuples">2. Tuples</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="dicts">3. Dictionaries</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="samples">4. Samples</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="quiz">5. Quick Quiz</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Lists -->
+    <section class="card" id="lists" role="tabpanel">
+      <div class="kicker">Part 1</div>
+      <h2>Lists — ordered & changeable (<span class="pill">syntax: <strong>[ ]</strong></span>)</h2>
+      <p class="muted">Use lists when you need a collection you can edit: add, remove, reorder. Example: a movie watchlist.</p>
+
+      <div class="row">
+        <div>
+          <h3>🎬 Activity: Build your movie list</h3>
+          <label for="movieInput">Movie title</label>
+          <input id="movieInput" placeholder="e.g., Spider‑Verse" />
+          <div class="btns">
+            <button class="primary" onclick="addMovie()">Append (add to end)</button>
+            <button onclick="insertMovie()">Insert at index</button>
+            <input id="insertIndex" type="number" min="0" value="0" style="max-width:100px" />
+            <button onclick="removeMovie()">Remove by title</button>
+            <button class="ghost" onclick="popMovie()">Pop last</button>
+            <button class="ghost" onclick="clearMovies()">Clear</button>
+          </div>
+
+          <div class="out" id="movieListOut"></div>
+          <div class="hint success" id="movieHint">Tip: <span class="kbd">append()</span> adds to the end. <span class="kbd">insert(i, x)</span> adds at an index. <span class="kbd">pop()</span> removes & returns the last item.</div>
+        </div>
+        <div>
+          <h3>🧪 Try indexing & slicing</h3>
+          <div class="flex">
+            <label>Index</label>
+            <input id="idxInput" type="number" style="max-width:120px" value="0" />
+            <button onclick="showIndex()">Show item</button>
+          </div>
+          <div class="flex" style="margin-top:.5rem">
+            <label>Slice start</label>
+            <input id="sliceStart" type="number" style="max-width:100px" placeholder="start" />
+            <label>stop</label>
+            <input id="sliceStop" type="number" style="max-width:100px" placeholder="stop" />
+            <button onclick="showSlice()">Show slice</button>
+          </div>
+          <div class="out" id="indexOut"></div>
+          <h3 style="margin-top:1rem">📜 Python code</h3>
+          <pre class="code" id="listCode"></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tuples -->
+    <section class="card" id="tuples" role="tabpanel" hidden>
+      <div class="kicker">Part 2</div>
+      <h2>Tuples — ordered & <em>unchangeable</em> (<span class="pill">syntax: <strong>( )</strong></span>)</h2>
+      <p class="muted">Use tuples for fixed sets of items that shouldn't change. Example: days of the week.</p>
+
+      <div class="row">
+        <div>
+          <h3>📅 Activity: Explore a tuple</h3>
+          <div class="out" id="tupleOut"></div>
+          <div class="flex" style="margin-top:.5rem">
+            <label>Get item at index</label>
+            <input id="tupleIdx" type="number" min="0" max="6" value="0" style="max-width:120px" />
+            <button onclick="showTupleIndex()">Show</button>
+          </div>
+          <div class="btns" style="margin-top:.5rem">
+            <button onclick="tryTupleChange()">Try to change item (demo)</button>
+          </div>
+          <div class="hint error" id="tupleMsg" hidden>TypeError: 'tuple' object does not support item assignment — tuples are immutable.</div>
+        </div>
+        <div>
+          <h3>📜 Python code</h3>
+          <pre class="code" id="tupleCode"></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dictionaries -->
+    <section class="card" id="dicts" role="tabpanel" hidden>
+      <div class="kicker">Part 3</div>
+      <h2>Dictionaries — key → value pairs (<span class="pill">syntax: <strong>{ }</strong></span>)</h2>
+      <p class="muted">Use dictionaries to label data with keys. Example: information about a book.</p>
+
+      <div class="row">
+        <div>
+          <h3>📚 Activity: Your favourite book</h3>
+          <div class="row" style="grid-template-columns:1fr 1fr">
+            <div>
+              <label>Title</label>
+              <input id="bk_title" placeholder="e.g., The Hobbit" />
+              <label>Author</label>
+              <input id="bk_author" placeholder="J.R.R. Tolkien" />
+              <label>Year</label>
+              <input id="bk_year" type="number" placeholder="1937" />
+            </div>
+            <div>
+              <label>Genre</label>
+              <input id="bk_genre" placeholder="Fantasy" />
+              <label>Rating (1–5)</label>
+              <input id="bk_rating" type="number" min="1" max="5" step="1" />
+              <div class="btns" style="margin-top:.6rem">
+                <button class="primary" onclick="updateBook()">Add / Update</button>
+                <button onclick="deleteKey()">Delete key</button>
+                <select id="delKey" style="max-width:160px"></select>
+              </div>
+            </div>
+          </div>
+          <div class="out" id="bookOut"></div>
+          <div class="hint" id="dictHint">Tip: Access a value with <span class="kbd">book['title']</span>. Add/update with <span class="kbd">book['rating']=5</span>. Delete with <span class="kbd">del book['rating']</span>.</div>
+        </div>
+        <div>
+          <h3>📜 Python code</h3>
+          <pre class="code" id="dictCode"></pre>
+        </div>
+      </div>
+    </section>
+
+  <!-- Samples -->
+  <section class="card" id="samples" role="tabpanel" hidden>
+    <div class="kicker">Extras</div>
+    <h2>Sample Activities — try these in your Python REPL or save as files</h2>
+    <p class="muted">Small, ready-to-run examples you can copy: a shopping list, a number-guessing game, and a simple container manager.</p>
+
+    <div class="row">
+    <div>
+      <h3>🛍️ Shopping List</h3>
+      <p class="muted small">Interactive prompt to build a shopping list and show totals.</p>
+      <pre class="code"># shopping_list.py
+shopping = {}
+while True:
+  item = input("Item (or done): ").strip()
+  if item.lower() == 'done':
+    break
+  try:
+    price = float(input("Price: "))
+  except ValueError:
+    print("Invalid price, try again")
+    continue
+  shopping[item] = price
+
+print('\nYour shopping list:')
+for k, v in shopping.items():
+  print(f"{k}: {v}")
+print('Total:', sum(shopping.values()))</pre>
+    </div>
+
+    <div>
+      <h3>🎯 Number Guessing</h3>
+      <p class="muted small">A simple game: guess the secret number.</p>
+      <pre class="code"># guess.py
+import random
+secret = random.randint(1, 100)
+while True:
+  try:
+    n = int(input('Guess (1-100): '))
+  except ValueError:
+    print('Enter a number')
+    continue
+  if n < secret:
+    print('Too low')
+  elif n > secret:
+    print('Too high')
+  else:
+    print('Correct!')
+    break</pre>
+    </div>
+    </div>
+
+    <div class="row" style="margin-top:1rem">
+    <div>
+      <h3>🧰 Container Manager</h3>
+      <p class="muted small">Add/remove items in a small dictionary and print it without braces.</p>
+      <pre class="code"># container.py
+data = {'key': 'value'}
+while True:
+  cmd = input('add/remove/print/exit: ').strip().lower()
+  if cmd == 'add':
+    k = input('key: ')
+    v = input('value: ')
+    data[k] = v
+  elif cmd == 'remove':
+    k = input('key to remove: ')
+    data.pop(k, None)
+  elif cmd == 'print':
+    print(', '.join(f"{k}: {v}" for k, v in data.items()))
+  elif cmd == 'exit':
+    break</pre>
+    </div>
+    </div>
+  </section>
+
+    <!-- Quiz -->
+    <section class="card" id="quiz" role="tabpanel" hidden>
+      <div class="kicker">Part 4</div>
+      <h2>Quick Quiz — check your understanding</h2>
+      <div class="quiz">
+        <div class="card" style="padding: .8rem">
+          <strong>Q1.</strong> Which structure is <em>immutable</em>?
+          <div class="btns">
+            <button onclick="quiz(1,'wrong')">List</button>
+            <button onclick="quiz(1,'right')">Tuple</button>
+            <button onclick="quiz(1,'wrong')">Dictionary</button>
+          </div>
+          <div class="hint" id="q1" hidden>Correct: Tuples cannot be changed after creation.</div>
+        </div>
+        <div class="card" style="padding: .8rem">
+          <strong>Q2.</strong> How do you get the value for key <span class="kbd">'age'</span> from <span class="kbd">student</span>?
+          <div class="btns">
+            <button onclick="quiz(2,'wrong')">student[1]</button>
+            <button onclick="quiz(2,'right')">student['age']</button>
+            <button onclick="quiz(2,'wrong')">student.getKey('age')</button>
+          </div>
+          <div class="hint" id="q2" hidden>Correct: Use the key inside brackets: <span class="kbd">student['age']</span>.</div>
+        </div>
+        <div class="card" style="padding: .8rem">
+          <strong>Q3.</strong> Which method adds an item to the end of a list?
+          <div class="btns">
+            <button onclick="quiz(3,'right')">append()</button>
+            <button onclick="quiz(3,'wrong')">add()</button>
+            <button onclick="quiz(3,'wrong')">push()</button>
+          </div>
+          <div class="hint" id="q3" hidden>Correct: <span class="kbd">append()</span> adds to the end.</div>
+        </div>
+      </div>
+      <div class="sep"></div>
+      <div class="footer">Made for Grade 10 — practice first, then copy the Python shown on the right into your IDE.</div>
+    </section>
+  </main>
+
+  <script>
+    // ---------- Utilities ----------
+    const $ = (id) => document.getElementById(id);
+    const save = (key, val) => localStorage.setItem(key, JSON.stringify(val));
+    const load = (key, fallback) => {
+      try{ return JSON.parse(localStorage.getItem(key)) ?? fallback }catch(e){return fallback}
+    };
+
+    // ---------- Tabs ----------
+    const tabButtons = document.querySelectorAll('.tab');
+    const panels = {
+      lists: $('lists'),
+      tuples: $('tuples'),
+      dicts: $('dicts'),
+  samples: $('samples'),
+  quiz: $('quiz')
+    };
+    tabButtons.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const t = btn.dataset.tab;
+        Object.entries(panels).forEach(([k,el])=>{
+          const active = (k===t);
+          el.hidden = !active;
+        });
+        tabButtons.forEach(b=>b.setAttribute('aria-selected', b===btn? 'true':'false'));
+      })
+    })
+
+    // ---------- Lists Activity ----------
+    let movies = load('movies', []);
+
+    function renderMovies(){
+      $('movieListOut').textContent = movies.length ? movies.map((m,i)=> `${i}: ${m}`).join('  ·  ') : 'Your list is empty.';
+      $('listCode').textContent = `# your movie list\nmovies = ${JSON.stringify(movies).replaceAll('"', "'")}\n\n# Add / insert / remove\nmovies.append('New Movie')\nmovies.insert(0, 'First Movie')\n# remove by value: movies.remove('Some Movie')\nlast = movies.pop()  # remove and return last item\n\n# Access & slice\nfirst = movies[0] if movies else None\nsubset = movies[1:3]\n\n# Print nicely (no braces):\nprint(', '.join(f"{i}: {m}" for i, m in enumerate(movies)))`;
+      save('movies', movies);
+    }
+
+    function addMovie(){
+      const t = $('movieInput').value.trim();
+      if(!t){ flashHint('movieHint', 'Please enter a title.'); return; }
+      movies.push(t); $('movieInput').value=''; renderMovies();
+    }
+    function insertMovie(){
+      const t = $('movieInput').value.trim();
+      const idx = parseInt($('insertIndex').value||'0',10);
+      if(!t){ flashHint('movieHint', 'Please enter a title to insert.'); return; }
+      const i = Math.max(0, Math.min(idx, movies.length));
+      movies.splice(i,0,t); renderMovies();
+    }
+    function removeMovie(){
+      const t = $('movieInput').value.trim();
+      const pos = movies.indexOf(t);
+      if(pos===-1){ flashHint('movieHint', `"${t}" not found.`); return; }
+      movies.splice(pos,1); renderMovies();
+    }
+    function popMovie(){ movies.pop(); renderMovies(); }
+    function clearMovies(){ movies = []; renderMovies(); }
+
+    function showIndex(){
+      const i = parseInt($('idxInput').value||'0',10);
+      const msg = movies[i]!==undefined ? `movies[${i}] → ${movies[i]}` : `Index ${i} is out of range.`;
+      $('indexOut').textContent = msg;
+    }
+    function showSlice(){
+      let a = $('sliceStart').value; let b = $('sliceStop').value;
+      a = a!=='' ? parseInt(a,10) : undefined;
+      b = b!=='' ? parseInt(b,10) : undefined;
+      const arr = movies.slice(a,b);
+      $('indexOut').textContent = `movies[${a??''}:${b??''}] → [${arr.join(', ')}]`;
+    }
+
+    // ---------- Tuples Activity ----------
+    const daysTuple = Object.freeze(['Mon','Tue','Wed','Thu','Fri','Sat','Sun']);
+    function renderTuple(){
+      $('tupleOut').textContent = `days = ('Mon','Tue','Wed','Thu','Fri','Sat','Sun')`;
+      $('tupleCode').textContent = `# a fixed collection (immutable)\ndays = ('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun')\n# access\nprint(days[0])\n\n# iterate\nfor d in days:\n    print(d)\n\n# to change values, convert to list then back to tuple:\nmutable = list(days)\nmutable[0] = 'Monday'\ndays2 = tuple(mutable)  # ('Monday', 'Tue', ... )`;
+    }
+    function showTupleIndex(){
+      const i = parseInt($('tupleIdx').value||'0',10);
+      const val = daysTuple[i];
+      $('tupleMsg').hidden = true;
+      $('tupleOut').textContent = `days[${i}] → ${val!==undefined?val:'Index out of range'}`;
+    }
+    function tryTupleChange(){
+      $('tupleMsg').hidden = false;
+    }
+
+    // ---------- Dictionaries Activity ----------
+    let book = load('book', {});
+
+    function renderBook(){
+      const entries = Object.entries(book);
+      $('bookOut').textContent = entries.length ? `{ ${entries.map(([k,v])=>`'${k}': ${typeof v==='string'?`'${v}'`:v}`).join(', ')} }` : 'Your book dictionary is empty.';
+      $('dictCode').textContent = `# key -> value mapping\nbook = ${JSON.stringify(book, null, 2).replaceAll('"', "'")}\n\n# safe access\ntitle = book.get('title', 'Unknown')\n\n# update / add\nbook['rating'] = 5\n\n# iterate and print (no braces):\nfor k, v in book.items():\n    print(f"{k}: {v}")\n\n# compact print without braces:\nprint(', '.join(f"{k}: {v}" for k, v in book.items()))`;
+      // update delete dropdown
+      const delSel = $('delKey');
+      delSel.innerHTML = entries.map(([k])=>`<option value="${k}">${k}</option>`).join('');
+      save('book', book);
+    }
+
+    function updateBook(){
+      const t=$('bk_title').value.trim();
+      const a=$('bk_author').value.trim();
+      const y=$('bk_year').value; const g=$('bk_genre').value.trim();
+      const r=$('bk_rating').value;
+      if(t) book.title = t;
+      if(a) book.author = a;
+      if(y) book.year = parseInt(y,10);
+      if(g) book.genre = g;
+      if(r) book.rating = parseInt(r,10);
+      renderBook();
+      flashHint('dictHint','Updated! Try accessing with book[\'title\'].');
+    }
+
+    function deleteKey(){
+      const k = $('delKey').value;
+      if(k){ delete book[k]; renderBook(); }
+    }
+
+    // ---------- Quiz ----------
+    function quiz(n, res){
+      const el = $('q'+n);
+      el.hidden = false;
+      if(res==='right'){
+        el.classList.remove('error'); el.classList.add('success');
+      } else {
+        el.classList.remove('success'); el.classList.add('error');
+        el.innerHTML = 'Not quite — check the lesson above and try again!';
+      }
+    }
+
+    // ---------- Helpers ----------
+    function flashHint(id, msg){
+      const el = $(id); const prev = el.textContent; el.textContent = msg; el.style.transition='';
+      el.classList.remove('success','error'); el.classList.add('success');
+      setTimeout(()=>{ el.textContent = prev; }, 1500);
+    }
+
+    // ---------- Init ----------
+    renderMovies();
+    renderTuple();
+    renderBook();
+  </script>
+  <!-- Try it: Run the Python snippets shown in the code blocks on the right in your local Python REPL or files (e.g., we1.py, we3.py, we4.py, we5.py). -->
+</body>
+</html>
